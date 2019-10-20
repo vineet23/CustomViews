@@ -52,9 +52,10 @@ public class SheetCircle extends View {
     }
 
     int setup =0,angle=0,mangle=0;
+    //vertical line and horizontal line
     Line vline;
     Line hline;
-    Paint linePaint,circlePaint;
+    Paint linePaint,circlePaint,paint;
     RectF rectF,mRectF;
 
     public SheetCircle(Context context) {
@@ -86,6 +87,10 @@ public class SheetCircle extends View {
         if (setup==0) {
             linePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             circlePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+            paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+            paint.setStyle(Paint.Style.STROKE);
+            paint.setStrokeCap(Paint.Cap.ROUND);
+            paint.setColor(Color.parseColor("#909090"));
             circlePaint.setStyle(Paint.Style.STROKE);
             circlePaint.setStrokeWidth(3);
             circlePaint.setColor(Color.parseColor("#27488E"));
@@ -100,13 +105,13 @@ public class SheetCircle extends View {
             hline = new Line(0,0,getHeight()/2,getHeight()/2);
             setup = 1;
         }
-        canvas.drawLine(vline.getX1(),vline.getY1(),vline.getX2(),vline.getY2(),linePaint);
+        canvas.drawLine(vline.getX1(),vline.getY1(),vline.getX2(),vline.getY2(),paint);
         if(vline.getY2()<=getHeight())
         {
             vline.setY2(vline.getY2()+3);
             postInvalidate();
         }
-        canvas.drawLine(hline.getX1(),hline.getY1(),hline.getX2(),hline.getY2(),linePaint);
+        canvas.drawLine(hline.getX1(),hline.getY1(),hline.getX2(),hline.getY2(),paint);
         if(hline.getX2()<=getWidth() && vline.getY2()>=getHeight()){
             hline.setX2(hline.getX2()+3);
             postInvalidate();
