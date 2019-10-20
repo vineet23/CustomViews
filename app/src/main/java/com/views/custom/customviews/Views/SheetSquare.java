@@ -13,7 +13,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
-public class SheetTriangle extends View {
+public class SheetSquare extends View {
 
     class Line{
         int x1,x2,y1,y2;
@@ -51,34 +51,27 @@ public class SheetTriangle extends View {
         }
     }
 
-    int setup =0,angle=0;
-    //vertical,horizontal,slant,midRight,midTop Lines
-    Line vline,hline,sline,d1,m1,m2;
+    Line s1,s2,s3,s4,d1,d2;
+    int setup =0,angle=0,oangle=45,offset=150,cangle=0;
     Paint linePaint,circlePaint,paint;
     RectF rectF;
 
-    public SheetTriangle(Context context) {
+    public SheetSquare(Context context) {
         super(context);
     }
 
-    public SheetTriangle(Context context, @Nullable AttributeSet attrs) {
+    public SheetSquare(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init(attrs);
     }
 
-    public SheetTriangle(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public SheetSquare(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(attrs);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public SheetTriangle(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public SheetSquare(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        init(attrs);
     }
-
-    public void init(@Nullable AttributeSet attributeSet)
-    {}
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -95,61 +88,87 @@ public class SheetTriangle extends View {
             paint.setStrokeCap(Paint.Cap.ROUND);
             circlePaint.setColor(Color.parseColor("#27488E"));
             circlePaint.setStrokeCap(Paint.Cap.ROUND);
-            rectF = new RectF(0,0,getWidth()*2,getHeight()*2);
             linePaint.setStyle(Paint.Style.STROKE);
             linePaint.setPathEffect(new DashPathEffect(new float[]{20, 20}, 0));
             linePaint.setColor(Color.parseColor("#909090"));
             linePaint.setStrokeCap(Paint.Cap.ROUND);
-            vline = new Line(getWidth(), getWidth() , getHeight(), getHeight());
-            hline = new Line(0,0,getHeight(),getHeight());
-            sline = new Line(getWidth(),getWidth(),0,0);
+            rectF = new RectF(190,190,getWidth()-190,getHeight()-190);
+            s1 = new Line(offset,offset,getHeight()-offset,getHeight()-offset);
+            s2 = new Line(getWidth()-offset,getWidth()-offset,getHeight()-offset,getHeight()-offset);
+            s3 = new Line(getWidth()-offset,getWidth()-offset,offset,offset);
+            s4 = new Line(offset,offset,offset,offset);
             d1 = new Line(0,0,0,0);
-            m1 = new Line(0,0,getHeight()/2,getHeight()/2);
-            m2 = new Line(getWidth()/2,getWidth()/2,0,0);
+            d2 = new Line(0,0,getHeight(),getHeight());
             setup = 1;
         }
-        canvas.drawLine(hline.getX1(),hline.getY1(),hline.getX2(),hline.getY2(),paint);
-        if(hline.getX2()<getWidth())
+        if (s4.getY2()>=getHeight()-offset&&angle<=45)
         {
-            hline.setX2(hline.getX2()+3);
+            canvas.save();
+            canvas.rotate(angle++,getWidth()/2,getHeight()/2);
+        }
+        else if(angle>45&&oangle==45)
+        {
+            canvas.rotate(45,getWidth()/2,getHeight()/2);
+        }
+        else if (oangle!=45)
+        {
+            canvas.rotate(oangle,getWidth()/2,getHeight()/2);
+        }
+        canvas.drawLine(s1.getX1(),s1.getY1(),s1.getX2(),s1.getY2(),paint);
+        if (s1.getX2()<getWidth()-offset)
+        {
+            s1.setX2(s1.getX2()+3);
             postInvalidate();
         }
-        canvas.drawLine(vline.getX1(),vline.getY1(),vline.getX2(),vline.getY2(),paint);
-        if(hline.getX2()>=getWidth()&&vline.getY2()>0)
+        canvas.drawLine(s2.getX1(),s2.getY1(),s2.getX2(),s2.getY2(),paint);
+        if (s1.getX2()>=getWidth()-offset&&s2.getY2()>offset)
         {
-            vline.setY2(vline.getY2()-3);
+            s2.setY2(s2.getY2()-3);
             postInvalidate();
         }
-        canvas.drawLine(sline.getX1(),sline.getY1(),sline.getX2(),sline.getY2(),paint);
-        if ((hline.getY2()>=getWidth()&&vline.getY2()<=0)&&(sline.getX2()>0&&sline.getY2()<getHeight()))
+        canvas.drawLine(s3.getX1(),s3.getY1(),s3.getX2(),s3.getY2(),paint);
+        if (s2.getY2()<=offset&&s3.getX2()>offset)
         {
-            sline.setY2(sline.getY2()+3);
-            sline.setX2(sline.getX2()-3);
+            s3.setX2(s3.getX2()-3);
             postInvalidate();
         }
-        canvas.drawArc(rectF,180,angle,false,circlePaint);
-        if((sline.getX2()<=0||sline.getY2()>=getHeight())&&angle<90)
+        canvas.drawLine(s4.getX1(),s4.getY1(),s4.getX2(),s4.getY2(),paint);
+        if (s3.getX2()<=offset&&s4.getY2()<getHeight()-offset)
         {
-            angle = angle +1;
+            s4.setY2(s4.getY2()+3);
             postInvalidate();
+        }
+        if (s4.getY2()>=getHeight()-offset&&angle<=45)
+        {
+            try {
+                postInvalidate();
+            }catch (Exception e){}
         }
         canvas.drawLine(d1.getX1(),d1.getY1(),d1.getX2(),d1.getY2(),linePaint);
-        if(angle>=90 && (d1.getX2()<getWidth()&&d1.getY2()<getHeight()))
+        if(angle>45 && (d1.getX2()<getWidth()&&d1.getY2()<getHeight()))
         {
+
             d1.setX2(d1.getX2()+3);
             d1.setY2(d1.getY2()+3);
             postInvalidate();
         }
-        canvas.drawLine(m1.getX1(),m1.getY1(),m1.getX2(),m1.getY2(),linePaint);
-        if((d1.getX2()>=getWidth()&&d1.getY2()>=getHeight())&&m1.getX2()<getWidth())
+        canvas.drawLine(d2.getX1(),d2.getY1(),d2.getX2(),d2.getY2(),linePaint);
+        if((d1.getX2()>=getWidth()&&d1.getY2()>=getHeight())&&(d2.getY2()>0&&d2.getX2()<getWidth()))
         {
-            m1.setX2(m1.getX2()+3);
+
+            d2.setX2(d2.getX2()+3);
+            d2.setY2(d2.getY2()-3);
             postInvalidate();
         }
-        canvas.drawLine(m2.getX1(),m2.getY1(),m2.getX2(),m2.getY2(),linePaint);
-        if (m1.getX2()>=getWidth()&&m2.getY2()<getHeight())
+        canvas.drawArc(rectF,0,cangle,false,circlePaint);
+        if((d2.getY2()<=0&&d2.getX2()>=getWidth())&&cangle<360)
         {
-            m2.setY2(m2.getY2()+3);
+            cangle++;
+            postInvalidate();
+        }
+        if (cangle>=360 && oangle<=90)
+        {
+            oangle=oangle+1;
             postInvalidate();
         }
     }

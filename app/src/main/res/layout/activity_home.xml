@@ -115,4 +115,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/circlesheet" />
 
+    <TextView
+        android:id="@+id/squaresheet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:text="SHEET SQUARE"
+        android:textColor="#909090"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/trianglesheet" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

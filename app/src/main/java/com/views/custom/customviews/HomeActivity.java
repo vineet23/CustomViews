@@ -9,10 +9,11 @@ import android.widget.TextView;
 
 import com.views.custom.customviews.Views.Circular;
 import com.views.custom.customviews.Views.Raidar;
+import com.views.custom.customviews.Views.SheetSquare;
 
 public class HomeActivity extends AppCompatActivity {
 
-    TextView gold,circular,atom,raidar,detector,bagHandle,circlesheet,trianglesheet;
+    TextView gold,circular,atom,raidar,detector,bagHandle,circlesheet,trianglesheet,squaresheet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,7 @@ public class HomeActivity extends AppCompatActivity {
         bagHandle = findViewById(R.id.bagHandle);
         circlesheet = findViewById(R.id.circlesheet);
         trianglesheet = findViewById(R.id.trianglesheet);
+        squaresheet = findViewById(R.id.squaresheet);
 
         gold.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +83,13 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(HomeActivity.this,SheetTriangleActivity.class));
+            }
+        });
+
+        squaresheet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomeActivity.this, SheetSquareActivity.class));
             }
         });
     }
