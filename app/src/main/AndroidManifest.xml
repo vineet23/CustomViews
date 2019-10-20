@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SheetCircleActivity"></activity>
+        <activity android:name=".SheetTriangleActivity"></activity>
+        <activity android:name=".SheetCircleActivity" />
         <activity android:name=".HandleActivity" />
         <activity android:name=".DetectorActivity" />
         <activity android:name=".RaidarActivity" />

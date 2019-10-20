@@ -12,7 +12,7 @@ import com.views.custom.customviews.Views.Raidar;
 
 public class HomeActivity extends AppCompatActivity {
 
-    TextView gold,circular,atom,raidar,detector,bagHandle,circlesheet;
+    TextView gold,circular,atom,raidar,detector,bagHandle,circlesheet,trianglesheet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +26,7 @@ public class HomeActivity extends AppCompatActivity {
         detector = findViewById(R.id.detector);
         bagHandle = findViewById(R.id.bagHandle);
         circlesheet = findViewById(R.id.circlesheet);
+        trianglesheet = findViewById(R.id.trianglesheet);
 
         gold.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +74,13 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(HomeActivity.this,SheetCircleActivity.class));
+            }
+        });
+
+        trianglesheet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomeActivity.this,SheetTriangleActivity.class));
             }
         });
     }
